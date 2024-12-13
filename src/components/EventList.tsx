@@ -54,16 +54,18 @@ export function EventList({
 							}`}
 						>
 							<div>
-								<h3 className="font-semibold">{event.name}</h3>
-								<p className="text-sm">
-									{new Date(event.startTime).toLocaleString()} -{' '}
-									{new Date(event.endTime).toLocaleString()}
-								</p>
+								<h3 className="text-lg font-semibold">{event.name}</h3>
 								{event.description && (
-									<p className="text-sm mt-1">{event.description}</p>
+									<p className="text-sm mb-1">{event.description}</p>
 								)}
+								<p className="text-sm">
+									{`Start Time: ${new Date(event.startTime).toLocaleString()}`}
+								</p>
+								<p className="text-sm">
+									{`End Time: ${new Date(event.endTime).toLocaleString()}`}
+								</p>
 							</div>
-							<div>
+							<div className="flex flex-row">
 								<Button
 									variant="outline"
 									size="sm"
