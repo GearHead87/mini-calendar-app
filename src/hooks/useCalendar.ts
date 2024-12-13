@@ -1,6 +1,36 @@
 import { useState, useEffect } from 'react';
 import { CalendarState, Event, Day } from '../types/calendar';
-import { getMonthData, formatDate } from '../utils/dateUtils';
+import { formatDate } from '../utils/dateUtils';
+
+const getMonthData = (date: Date): Date[] => {
+	const year = date.getFullYear();
+	const month = date.getMonth();
+	const firstDay = new Date(year, month, 1);
+	const lastDay = new Date(year, month + 1, 0);
+
+	const daysInMonth = lastDay.getDate();
+	const dayOfWeek = firstDay.getDay();
+
+	const daysArray: Date[] = [];
+
+	// Add days from previous month
+	for (let i = dayOfWeek; i > 0; i--) {
+		daysArray.push(new Date(year, month, -i + 1));
+	}
+
+	// Add days of current month
+	for (let i = 1; i <= daysInMonth; i++) {
+		daysArray.push(new Date(year, month, i));
+	}
+
+	// Add days from next month to complete 35 days
+	const remainingDays = 35 - daysArray.length;
+	for (let i = 1; i <= remainingDays; i++) {
+		daysArray.push(new Date(year, month + 1, i));
+	}
+
+	return daysArray;
+};
 
 export function useCalendar() {
 	const [state, setState] = useState<CalendarState>({
